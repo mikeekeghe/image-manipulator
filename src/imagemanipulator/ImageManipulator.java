@@ -63,17 +63,17 @@ public class ImageManipulator extends Application {
                 TargetNameslist.add("Rosacea");
 
                 //2. create Output folders with folder names as TargetNames in arrayList - DONE
-//                for (String temp : TargetNameslist) {
-//                    System.out.println("output/" + temp);
-//                    File file = new File(temp);
-//                    //Creating the directory
-//                    boolean bool = file.mkdir();
-//                    if (bool) {
-//                        System.out.println("Directory created successfully");
-//                    } else {
-//                        System.out.println("Sorry couldn’t create specified directory");
-//                    }
-//                }
+                for (String temp : TargetNameslist) {
+                    System.out.println("output/" + temp);
+                    File file = new File(temp);
+                    //Creating the directory
+                    boolean bool = file.mkdir();
+                    if (bool) {
+                        System.out.println("Directory created successfully");
+                    } else {
+                        System.out.println("Sorry couldn’t create specified directory");
+                    }
+                }
                 //3. Scan file names in input source folder
                 try (Stream<Path> walk = Files.walk(Paths.get(SOURCE_IMG_HOME))) {
 
@@ -86,9 +86,34 @@ public class ImageManipulator extends Application {
                         //   if file name text contains targetNames
                         for (String strToBeSearched : result) {
                             if (strToBeSearched.contains(targetStr)) {
+                                System.out.println("strToBeSearched >> "+ strToBeSearched);
                                 //  copy image to new name and put in appropriate targetName Folder
-                                String builtPic = SOURCE_IMG_HOME + "/" + strToBeSearched;
-                                Path source = Paths.get(builtPic); //original file
+                               
+                                Path source = Paths.get(strToBeSearched); //original file
+                                Path targetDir = Paths.get(targetStr);
+                                String newFileName = targetStr + counter + ".jpg";
+                                Path target = targetDir.resolve(newFileName);// create new path ending with `name` content
+                                System.out.println("copying into " + target);
+                                Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                                counter++;
+                            }
+                            if (strToBeSearched.contains(targetStr.toLowerCase())) {
+                                System.out.println("strToBeSearched >> "+ strToBeSearched);
+                                //  copy image to new name and put in appropriate targetName Folder
+                               
+                                Path source = Paths.get(strToBeSearched); //original file
+                                Path targetDir = Paths.get(targetStr);
+                                String newFileName = targetStr + counter + ".jpg";
+                                Path target = targetDir.resolve(newFileName);// create new path ending with `name` content
+                                System.out.println("copying into " + target);
+                                Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                                counter++;
+                            }
+                            if (strToBeSearched.contains(targetStr.toUpperCase())) {
+                                System.out.println("strToBeSearched >> "+ strToBeSearched);
+                                //  copy image to new name and put in appropriate targetName Folder
+                               
+                                Path source = Paths.get(strToBeSearched); //original file
                                 Path targetDir = Paths.get(targetStr);
                                 String newFileName = targetStr + counter + ".jpg";
                                 Path target = targetDir.resolve(newFileName);// create new path ending with `name` content
