@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ import javafx.stage.Stage;
  * @author mike
  */
 public class ImageManipulator extends Application {
+
+    private static final String SOURCE_IMG_HOME = "/home/mike/Documents/SPECIAL_PROJECTS/SkinLine_Project/DermanetNZ/dermnetnz.org/assets/Uploads";
+    int counter = 1;
 
     @Override
     public void start(Stage primaryStage) {
@@ -58,27 +62,45 @@ public class ImageManipulator extends Application {
                 TargetNameslist.add("Herpes");
                 TargetNameslist.add("Rosacea");
 
-                //2. create Output folders with folder names as TargetNames in arrayList
-                for (String temp : TargetNameslist) {
-                    System.out.println("output/" + temp);
-
-                    File file = new File(temp);
-                    //Creating the directory
-                    boolean bool = file.mkdir();
-                    if (bool) {
-                        System.out.println("Directory created successfully");
-                    } else {
-                        System.out.println("Sorry couldn’t create specified directory");
-                    }
-                }
-
+                //2. create Output folders with folder names as TargetNames in arrayList - DONE
+//                for (String temp : TargetNameslist) {
+//                    System.out.println("output/" + temp);
+//                    File file = new File(temp);
+//                    //Creating the directory
+//                    boolean bool = file.mkdir();
+//                    if (bool) {
+//                        System.out.println("Directory created successfully");
+//                    } else {
+//                        System.out.println("Sorry couldn’t create specified directory");
+//                    }
+//                }
                 //3. Scan file names in input source folder
-                try (Stream<Path> walk = Files.walk(Paths.get("/home/mike/Documents/SPECIAL_PROJECTS/SkinLine_Project/DermanetNZ/dermnetnz.org/assets/Uploads"))) {
+                try (Stream<Path> walk = Files.walk(Paths.get(SOURCE_IMG_HOME))) {
 
                     List<String> result = walk.map(x -> x.toString())
                             .filter(f -> f.endsWith(".jpg")).collect(Collectors.toList());
 
-                    result.forEach(System.out::println);
+                    //result.forEach(System.out::println);
+                    // loop through TargetNames
+                    for (String targetStr : TargetNameslist) {
+                        //   if file name text contains targetNames
+                        for (String strToBeSearched : result) {
+                            if (strToBeSearched.contains(targetStr)) {
+                                //  copy image to new name and put in appropriate targetName Folder
+                                String builtPic = SOURCE_IMG_HOME + "/" + strToBeSearched + ".jpg";
+                                Path source = Paths.get(builtPic); //original file
+                                Path targetDir = Paths.get(targetStr);
+                                String newFileName = targetStr + counter + ".jpg";
+                                Path target = targetDir.resolve(newFileName);// create new path ending with `name` content
+                                System.out.println("copying into " + target);
+                                Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                                counter++;
+                            }
+                        }
+
+                    }
+
+                    System.out.println("Image count >>" + result.size());
 
                 } catch (IOException e) {
                     e.printStackTrace();
