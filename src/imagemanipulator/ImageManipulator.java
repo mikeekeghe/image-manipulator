@@ -87,7 +87,7 @@ public class ImageManipulator extends Application {
                         for (String strToBeSearched : result) {
                             if (strToBeSearched.contains(targetStr)) {
                                 //  copy image to new name and put in appropriate targetName Folder
-                                String builtPic = SOURCE_IMG_HOME + "/" + strToBeSearched + ".jpg";
+                                String builtPic = SOURCE_IMG_HOME + "/" + strToBeSearched;
                                 Path source = Paths.get(builtPic); //original file
                                 Path targetDir = Paths.get(targetStr);
                                 String newFileName = targetStr + counter + ".jpg";
