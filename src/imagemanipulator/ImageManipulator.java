@@ -45,6 +45,7 @@ public class ImageManipulator extends Application {
                 //1. Create ArrayList of TargetNames  for Output folders
                 ArrayList<String> TargetNameslist = new ArrayList<String>();
                 TargetNameslist.add("Acne");
+                TargetNameslist.add("Boil");
                 TargetNameslist.add("Lesion");
                 TargetNameslist.add("Dermatitis");
                 TargetNameslist.add("Bullous");
@@ -54,13 +55,14 @@ public class ImageManipulator extends Application {
                 TargetNameslist.add("Nail");
                 TargetNameslist.add("Psoriasis");
                 TargetNameslist.add("Bites");
-                TargetNameslist.add("Tumor");
                 TargetNameslist.add("Funga");
                 TargetNameslist.add("Vasculitis");
                 TargetNameslist.add("Vir");
                 TargetNameslist.add("Keratosis");
                 TargetNameslist.add("Herpes");
+                TargetNameslist.add("Rash");
                 TargetNameslist.add("Rosacea");
+                TargetNameslist.add("Scabies");
 
                 //2. create Output folders with folder names as TargetNames in arrayList - DONE
                 for (String temp : TargetNameslist) {
